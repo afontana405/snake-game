@@ -1,14 +1,12 @@
 var playerDirection = '';
-var yAxis = 6;
-var xAxis = 6; 
 var tailLength = 0;
 var tailArray = [];
 var autoMoveInt = setInterval(autoMove, 500);
+var foodSpawner = setInterval(foodSpawner, 5000);
 
 $(window).ready(function() {
     createBoard();
 });
-
 
 // listens for arrow key clicks
 document.onkeydown = (e) => {
@@ -31,13 +29,14 @@ function createBoard() {
         var section = document.createElement('section');
         section.setAttribute('id', [i]);
         section.className = 'col-10 d-flex';
-        section.innerHTML = '<div class="1"></div><div class="2"></div><div id="food" class="3"></div><div class="4"></div><div class="5"></div><div class="6"></div><div class="7"></div><div class="8"></div><div class="9"></div><div class="10"></div>';
+        section.innerHTML = '<div class="1"></div><div class="2"></div><div class="3"></div><div class="4"></div><div class="5"></div><div class="6"></div><div class="7"></div><div class="8"></div><div class="9"></div><div class="10"></div>';
         gameboard.append(section);
     }
     // creates the player in default position
-    document.getElementById(yAxis).getElementsByClassName(xAxis)[0].id = 'player-location'; 
+    document.getElementById(6).getElementsByClassName(6)[0].id = 'player-location'; 
 }
 
+// checks users last input to decide which direction to move
 function autoMove() {
     if (playerDirection === 'up') {
         moveUp();
@@ -122,6 +121,7 @@ function moveRight() {
     }
 }
 
+// deletes end of players tail when they move
 function checkTailLength() {
     if (tailArray.length > tailLength) {
         tailArray[0].id = '';
@@ -139,10 +139,22 @@ function endgame() {
     clearInterval(autoMoveInt);
 }
 
+// if location player moves to has food, they grow. if they touch themself, they die
 function checkSquare(locationMovedTo) {
     if (locationMovedTo === 'food') {
         tailLength++;
     } else if (locationMovedTo === 'player-tail') {
         endgame();
+    }
+}
+
+// spawns food randomly on game board
+function foodSpawner() {
+    var xAxis = Math.floor(Math.random() * 10)+1;
+    var yAxis = Math.floor(Math.random() * 10);
+    var foodLocation = document.getElementById(yAxis).getElementsByClassName(xAxis)[0];
+    // makes sure food doesnt spawn on player
+    if (foodLocation.id !== 'player-location' && foodLocation.id !== 'player-tail') {
+        foodLocation.id = 'food'
     }
 }
