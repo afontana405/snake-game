@@ -3,12 +3,12 @@ var yAxis = 6;
 var xAxis = 6; 
 var tailLength = 5;
 var tailArray = [];
+var autoMoveInt = setInterval(autoMove, 500);
 
 $(window).ready(function() {
     createBoard();
 });
 
-setInterval(autoMove, 1);
 
 // listens for arrow key clicks
 document.onkeydown = (e) => {
@@ -55,13 +55,15 @@ function moveUp() {
     var currentLocation = $('#player-location')[0];
     var currentYAxis = currentLocation.parentElement.id;
     var currentXAxis = currentLocation.className
-    tailArray.push(currentLocation);
     if (currentYAxis > 0) {
+        tailArray.push(currentLocation);
         currentLocation.id = 'player-tail';
         currentYAxis--;
         document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id = 'player-location';
+        checkTailLength();
+    } else {
+        endgame();
     }
-    checkTailLength();
 }
 
 // moves player down 1
@@ -69,13 +71,15 @@ function moveDown() {
     var currentLocation = $('#player-location')[0];
     var currentYAxis = currentLocation.parentElement.id;
     var currentXAxis = currentLocation.className
-    tailArray.push(currentLocation);
     if (currentYAxis < 9) {
+        tailArray.push(currentLocation);
         currentLocation.id = 'player-tail';
         currentYAxis++;
         document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id = 'player-location';
+        checkTailLength();
+    } else {
+        endgame();
     }
-    checkTailLength();
 }
 
 // moves player left 1
@@ -83,13 +87,15 @@ function moveLeft() {
     var currentLocation = $('#player-location')[0];
     var currentXAxis = currentLocation.className;
     var currentYAxis = currentLocation.parentElement.id;
-    tailArray.push(currentLocation);
     if (currentXAxis > 1) {
+        tailArray.push(currentLocation);
         currentLocation.id = 'player-tail';
         currentXAxis--;
         document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id = 'player-location';
+        checkTailLength();
+    } else {
+        endgame();
     }
-    checkTailLength();
 }
 
 // moves player right 1
@@ -97,13 +103,15 @@ function moveRight() {
     var currentLocation = $('#player-location')[0];
     var currentXAxis = currentLocation.className;
     var currentYAxis = currentLocation.parentElement.id;
-    tailArray.push(currentLocation);
     if (currentXAxis < 10) {
+        tailArray.push(currentLocation);
         currentLocation.id = 'player-tail';
         currentXAxis++;
         document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id = 'player-location';
+        checkTailLength();
+    } else {
+        endgame();
     }
-    checkTailLength();
 }
 
 function checkTailLength() {
@@ -112,3 +120,13 @@ function checkTailLength() {
         tailArray.shift();
     }
 };
+
+// removes player from board, stops interval
+function endgame() {
+    for (var i = 0; i < tailArray.length; i++) {
+        tailArray[i].id = '';
+    }
+    var currentLocation = $('#player-location')[0];
+    currentLocation.id = '';
+    clearInterval(autoMoveInt);
+}
