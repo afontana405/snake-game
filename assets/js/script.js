@@ -1,23 +1,23 @@
 var playerDirection = '';
 var tailLength = 0;
 var tailArray = [];
-var autoMoveInt = setInterval(autoMove, 500);
-var foodSpawner = setInterval(foodSpawner, 5000);
+var autoMoveInt = setInterval(autoMove, 250);
+var foodSpawnerInt = setInterval(foodSpawner, 5000);
 
 $(window).ready(function() {
     createBoard();
 });
 
-// listens for arrow key clicks
+// listens for arrow key or WASD clicks
 document.onkeydown = (e) => {
     e = e || window.event;
-    if (e.keyCode === 38) {
+    if (e.keyCode === 38 || e.keyCode === 87) {
         playerDirection = 'up';
-    } else if (e.keyCode === 40) {
+    } else if (e.keyCode === 40 || e.keyCode === 83) {
         playerDirection = 'down';
-    } else if (e.keyCode === 37) {
+    } else if (e.keyCode === 37 || e.keyCode === 65) {
         playerDirection = 'left';
-    } else if (e.keyCode === 39) {
+    } else if (e.keyCode === 39 || e.keyCode === 68) {
         playerDirection = 'right';
     }
 };
@@ -129,16 +129,6 @@ function checkTailLength() {
     }
 };
 
-// removes player from board, stops interval
-function endgame() {
-    for (var i = 0; i < tailArray.length; i++) {
-        tailArray[i].id = '';
-    }
-    var currentLocation = $('#player-location')[0];
-    currentLocation.id = '';
-    clearInterval(autoMoveInt);
-}
-
 // if location player moves to has food, they grow. if they touch themself, they die
 function checkSquare(locationMovedTo) {
     if (locationMovedTo === 'food') {
@@ -157,4 +147,15 @@ function foodSpawner() {
     if (foodLocation.id !== 'player-location' && foodLocation.id !== 'player-tail') {
         foodLocation.id = 'food'
     }
+}
+
+// removes player from board, stops intervals
+function endgame() {
+    for (var i = 0; i < tailArray.length; i++) {
+        tailArray[i].id = '';
+    }
+    var currentLocation = $('#player-location')[0];
+    currentLocation.id = '';
+    clearInterval(autoMoveInt);
+    clearInterval(foodSpawnerInt)
 }
