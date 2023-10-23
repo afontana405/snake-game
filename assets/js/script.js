@@ -1,7 +1,7 @@
 var playerDirection = '';
 var yAxis = 6;
 var xAxis = 6; 
-var tailLength = 5;
+var tailLength = 0;
 var tailArray = [];
 var autoMoveInt = setInterval(autoMove, 500);
 
@@ -31,7 +31,7 @@ function createBoard() {
         var section = document.createElement('section');
         section.setAttribute('id', [i]);
         section.className = 'col-10 d-flex';
-        section.innerHTML = '<div class="1"></div><div class="2"></div><div class="3"></div><div class="4"></div><div class="5"></div><div class="6"></div><div class="7"></div><div class="8"></div><div class="9"></div><div class="10"></div>';
+        section.innerHTML = '<div class="1"></div><div class="2"></div><div id="food" class="3"></div><div class="4"></div><div class="5"></div><div class="6"></div><div class="7"></div><div class="8"></div><div class="9"></div><div class="10"></div>';
         gameboard.append(section);
     }
     // creates the player in default position
@@ -59,6 +59,8 @@ function moveUp() {
         tailArray.push(currentLocation);
         currentLocation.id = 'player-tail';
         currentYAxis--;
+        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id
+        checkSquare(locationMovedTo);
         document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id = 'player-location';
         checkTailLength();
     } else {
@@ -75,6 +77,8 @@ function moveDown() {
         tailArray.push(currentLocation);
         currentLocation.id = 'player-tail';
         currentYAxis++;
+        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id
+        checkSquare(locationMovedTo);
         document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id = 'player-location';
         checkTailLength();
     } else {
@@ -91,6 +95,8 @@ function moveLeft() {
         tailArray.push(currentLocation);
         currentLocation.id = 'player-tail';
         currentXAxis--;
+        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id
+        checkSquare(locationMovedTo);
         document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id = 'player-location';
         checkTailLength();
     } else {
@@ -107,6 +113,8 @@ function moveRight() {
         tailArray.push(currentLocation);
         currentLocation.id = 'player-tail';
         currentXAxis++;
+        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id
+        checkSquare(locationMovedTo);
         document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id = 'player-location';
         checkTailLength();
     } else {
@@ -129,4 +137,12 @@ function endgame() {
     var currentLocation = $('#player-location')[0];
     currentLocation.id = '';
     clearInterval(autoMoveInt);
+}
+
+function checkSquare(locationMovedTo) {
+    if (locationMovedTo === 'food') {
+        tailLength++;
+    } else if (locationMovedTo === 'player-tail') {
+        endgame();
+    }
 }

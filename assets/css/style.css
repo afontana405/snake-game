@@ -1,9 +1,15 @@
 body {
     overflow-x: hidden;
+    background-color: darkgray;
+}
+
+header {
+    text-align: center;
+    background-color: green;
+    height: 100px;
 }
 
 #game-board {
-    background-color: darkgray;
     height: 600px;
     justify-content: center;
 }
@@ -20,9 +26,13 @@ body {
 }
 
 #player-location {
-    background-color: green;
+    background-color: lightgreen;
 }
 
 #player-tail {
+    background-color: green;
+}
+
+#food {
     background-color: red;
 }
