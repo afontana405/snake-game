@@ -1,4 +1,4 @@
-var playerDirection = '';
+var playerDirection = 'up';
 var tailLength = 0;
 var tailArray = [];
 var autoMoveInt = setInterval(autoMove, 250);
@@ -151,11 +151,11 @@ function foodSpawner() {
 
 // removes player from board, stops intervals
 function endgame() {
+    clearInterval(autoMoveInt);
+    clearInterval(foodSpawnerInt);
     for (var i = 0; i < tailArray.length; i++) {
         tailArray[i].id = '';
     }
     var currentLocation = $('#player-location')[0];
     currentLocation.id = '';
-    clearInterval(autoMoveInt);
-    clearInterval(foodSpawnerInt)
 }
