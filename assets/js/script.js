@@ -1,4 +1,4 @@
-var playerDirection = 'up';
+var playerDirection = '';
 var yAxis = 6;
 var xAxis = 6; 
 var tailLength = 5;
@@ -8,17 +8,19 @@ $(window).ready(function() {
     createBoard();
 });
 
+setInterval(autoMove, 1);
+
 // listens for arrow key clicks
 document.onkeydown = (e) => {
     e = e || window.event;
     if (e.keyCode === 38) {
-        moveUp();
+        playerDirection = 'up';
     } else if (e.keyCode === 40) {
-        moveDown();
+        playerDirection = 'down';
     } else if (e.keyCode === 37) {
-        moveLeft();
+        playerDirection = 'left';
     } else if (e.keyCode === 39) {
-        moveRight();
+        playerDirection = 'right';
     }
 };
 
@@ -35,6 +37,18 @@ function createBoard() {
     // creates the player in default position
     document.getElementById(yAxis).getElementsByClassName(xAxis)[0].id = 'player-location'; 
 }
+
+function autoMove() {
+    if (playerDirection === 'up') {
+        moveUp();
+    } else if (playerDirection === 'down') {
+        moveDown();
+    } else if (playerDirection === 'left') {
+        moveLeft();
+    } else if (playerDirection === 'right') {
+        moveRight();
+    };
+};
 
 // moves player up 1
 function moveUp() {
