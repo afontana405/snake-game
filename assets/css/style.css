@@ -22,3 +22,7 @@ body {
 #player-location {
     background-color: green;
 }
+
+#player-tail {
+    background-color: red;
+}
