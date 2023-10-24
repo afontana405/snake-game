@@ -8,6 +8,7 @@ var foodSpawnRate = 5000;
 
 $(window).ready(function() {
     createBoard();
+    document.getElementById('play-again-btn').style.display = 'none';
 });
 
 $('#submit-btn').click(function() {
@@ -18,6 +19,7 @@ $('#submit-btn').click(function() {
 $('#start-btn').click(function() {
     var autoMoveInt = setInterval(autoMove, playerSpeed);
     var foodSpawnerInt = setInterval(foodSpawner, foodSpawnRate);
+    document.getElementById('start-btn').style.display = 'none';
 });
 
 // listens for arrow key or WASD clicks
@@ -141,6 +143,7 @@ function endgame() {
     }
     var currentLocation = $('#player-location')[0];
     currentLocation.id = '';
+    document.getElementById('play-again-btn').style.display = 'initial';
 }
 
 // uses user input to set the rules for the game
