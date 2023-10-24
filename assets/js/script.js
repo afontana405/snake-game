@@ -38,88 +38,59 @@ function createBoard() {
 
 // checks users last input to decide which direction to move
 function autoMove() {
-    if (playerDirection === 'up') {
-        moveUp();
-    } else if (playerDirection === 'down') {
-        moveDown();
-    } else if (playerDirection === 'left') {
-        moveLeft();
-    } else if (playerDirection === 'right') {
-        moveRight();
+    var currentLocation = $('#player-location')[0];
+    var currentYAxis = currentLocation.parentElement.id;
+    var currentXAxis = currentLocation.className
+    if (playerDirection === 'up') { // moves player up 1
+        if (currentYAxis > 0) {
+            tailArray.push(currentLocation);
+            currentLocation.id = 'player-tail';
+            currentYAxis--;
+            var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
+            checkSquare(locationMovedTo);
+            locationMovedTo.id = 'player-location';
+            checkTailLength();
+        } else { // ends game if player hits wall
+            endgame();
+        }
+    } else if (playerDirection === 'down') { // moves player down 1
+        if (currentYAxis < 9) {
+            tailArray.push(currentLocation);
+            currentLocation.id = 'player-tail';
+            currentYAxis++;
+            var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
+            checkSquare(locationMovedTo);
+            locationMovedTo.id = 'player-location';
+            checkTailLength();
+        } else { // ends game if player hits wall
+            endgame();
+        }
+    } else if (playerDirection === 'left') { // moves player left 1
+        if (currentXAxis > 1) {
+            tailArray.push(currentLocation);
+            currentLocation.id = 'player-tail';
+            currentXAxis--;
+            var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
+            checkSquare(locationMovedTo);
+            locationMovedTo.id = 'player-location';
+            checkTailLength();
+        } else { // ends game if player hits wall
+            endgame();
+        }
+    } else if (playerDirection === 'right') { // moves player right 1
+        if (currentXAxis < 10) {
+            tailArray.push(currentLocation);
+            currentLocation.id = 'player-tail';
+            currentXAxis++;
+            var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
+            checkSquare(locationMovedTo);
+            locationMovedTo.id = 'player-location';
+            checkTailLength();
+        } else { // ends game if player hits wall
+            endgame();
+        }
     };
 };
-
-// moves player up 1
-function moveUp() {
-    var currentLocation = $('#player-location')[0];
-    var currentYAxis = currentLocation.parentElement.id;
-    var currentXAxis = currentLocation.className
-    if (currentYAxis > 0) {
-        tailArray.push(currentLocation);
-        currentLocation.id = 'player-tail';
-        currentYAxis--;
-        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
-        checkSquare(locationMovedTo);
-        locationMovedTo.id = 'player-location';
-        checkTailLength();
-    } else {
-        endgame();
-    }
-}
-
-// moves player down 1
-function moveDown() {
-    var currentLocation = $('#player-location')[0];
-    var currentYAxis = currentLocation.parentElement.id;
-    var currentXAxis = currentLocation.className
-    if (currentYAxis < 9) {
-        tailArray.push(currentLocation);
-        currentLocation.id = 'player-tail';
-        currentYAxis++;
-        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
-        checkSquare(locationMovedTo);
-        locationMovedTo.id = 'player-location';
-        checkTailLength();
-    } else {
-        endgame();
-    }
-}
-
-// moves player left 1
-function moveLeft() {
-    var currentLocation = $('#player-location')[0];
-    var currentXAxis = currentLocation.className;
-    var currentYAxis = currentLocation.parentElement.id;
-    if (currentXAxis > 1) {
-        tailArray.push(currentLocation);
-        currentLocation.id = 'player-tail';
-        currentXAxis--;
-        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
-        checkSquare(locationMovedTo);
-        locationMovedTo.id = 'player-location';
-        checkTailLength();
-    } else {
-        endgame();
-    }
-}
-
-// moves player right 1
-function moveRight() {
-    var currentLocation = $('#player-location')[0];
-    var currentXAxis = currentLocation.className;
-    var currentYAxis = currentLocation.parentElement.id;
-    if (currentXAxis < 10) {
-        tailArray.push(currentLocation);
-        currentLocation.id = 'player-tail';
-        currentXAxis++;
-        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
-        checkSquare(locationMovedTo);
-        locationMovedTo.id = 'player-location';
-        checkTailLength();
-    } else {
-        endgame();
-    }
-}
 
 // if location player moves to has food, they grow. if they touch themself, they die
 function checkSquare(locationMovedTo) {
