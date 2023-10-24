@@ -12,6 +12,7 @@ $(window).ready(function() {
 
 $('#submit-btn').click(function() {
     playerSettings();
+    console.log('submit');
 });
 
 $('#start-btn').click(function() {
@@ -142,15 +143,17 @@ function endgame() {
     currentLocation.id = '';
 }
 
+// uses user input to set the rules for the game
 function playerSettings() {
-    // console.log($('#speed-input').val());
-    // console.log($('#food-spawn-rate').val());
-    // console.log($('#tail-length').val());
-    tailLengthInput = $('#tail-length').val();
-    if (tailLengthInput.isInteger()) {
-        tailLength = tailLengthInput;
+    // sets tail length to user input if it is a number
+    var tailLengthInput = $('#tail-length').val();
+    if (isNaN(tailLengthInput)) {
+        tailLength = 0
+    } else {
+        tailLength = tailLengthInput
     }
-    speedInput = $('#speed-input').val();
+    // sets speed to user input
+    var speedInput = $('#speed-input').val();
     if (speedInput === 'slow') {
         playerSpeed = 1000;
     } else if (speedInput === 'fast') {
@@ -160,7 +163,8 @@ function playerSettings() {
     } else {
         playerSpeed = 250;
     }
-    foodInput = $('#food-spawn-rate').val();
+    // sets food spawn rate to user input
+    var foodInput = $('#food-spawn-rate').val();
     if (foodInput === 'slow') {
         foodSpawnRate = 10000;
     } else if (foodInput === 'fast') {
