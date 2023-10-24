@@ -58,9 +58,9 @@ function moveUp() {
         tailArray.push(currentLocation);
         currentLocation.id = 'player-tail';
         currentYAxis--;
-        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id
+        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
         checkSquare(locationMovedTo);
-        document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id = 'player-location';
+        locationMovedTo.id = 'player-location';
         checkTailLength();
     } else {
         endgame();
@@ -76,9 +76,9 @@ function moveDown() {
         tailArray.push(currentLocation);
         currentLocation.id = 'player-tail';
         currentYAxis++;
-        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id
+        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
         checkSquare(locationMovedTo);
-        document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id = 'player-location';
+        locationMovedTo.id = 'player-location';
         checkTailLength();
     } else {
         endgame();
@@ -94,9 +94,9 @@ function moveLeft() {
         tailArray.push(currentLocation);
         currentLocation.id = 'player-tail';
         currentXAxis--;
-        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id
+        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
         checkSquare(locationMovedTo);
-        document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id = 'player-location';
+        locationMovedTo.id = 'player-location';
         checkTailLength();
     } else {
         endgame();
@@ -112,11 +112,20 @@ function moveRight() {
         tailArray.push(currentLocation);
         currentLocation.id = 'player-tail';
         currentXAxis++;
-        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id
+        var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
         checkSquare(locationMovedTo);
-        document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0].id = 'player-location';
+        locationMovedTo.id = 'player-location';
         checkTailLength();
     } else {
+        endgame();
+    }
+}
+
+// if location player moves to has food, they grow. if they touch themself, they die
+function checkSquare(locationMovedTo) {
+    if (locationMovedTo.id === 'food') {
+        tailLength++;
+    } else if (locationMovedTo.id === 'player-tail') {
         endgame();
     }
 }
@@ -128,15 +137,6 @@ function checkTailLength() {
         tailArray.shift();
     }
 };
-
-// if location player moves to has food, they grow. if they touch themself, they die
-function checkSquare(locationMovedTo) {
-    if (locationMovedTo === 'food') {
-        tailLength++;
-    } else if (locationMovedTo === 'player-tail') {
-        endgame();
-    }
-}
 
 // spawns food randomly on game board
 function foodSpawner() {
