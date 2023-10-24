@@ -2,7 +2,9 @@ var playerDirection = 'up';
 var tailLength = 0;
 var tailArray = [];
 var autoMoveInt;
-var foodSpawnerInt = setInterval(foodSpawner, 5000);
+var foodSpawnerInt;
+var playerSpeed = 250;
+var foodSpawnRate = 5000;
 
 $(window).ready(function() {
     createBoard();
@@ -13,7 +15,8 @@ $('#submit-btn').click(function() {
 });
 
 $('#start-btn').click(function() {
-    var autoMoveInt = setInterval(autoMove, 250);
+    var autoMoveInt = setInterval(autoMove, playerSpeed);
+    var foodSpawnerInt = setInterval(foodSpawner, foodSpawnRate);
 });
 
 // listens for arrow key or WASD clicks
@@ -142,6 +145,26 @@ function endgame() {
 function playerSettings() {
     // console.log($('#speed-input').val());
     // console.log($('#food-spawn-rate').val());
-    console.log($('#tail-length').val());
+    // console.log($('#tail-length').val());
     tailLength = $('#tail-length').val();
+    speedInput = $('#speed-input').val();
+    if (speedInput === 'slow') {
+        playerSpeed = 1000;
+    } else if (speedInput === 'fast') {
+        playerSpeed = 100;
+    } else if (speedInput === 'impossible') {
+        playerSpeed = 1;
+    } else {
+        playerSpeed = 250;
+    }
+    foodInput = $('#food-spawn-rate').val();
+    if (foodInput === 'slow') {
+        foodSpawnRate = 10000;
+    } else if (foodInput === 'fast') {
+        foodSpawnRate = 2500;
+    } else if (foodInput === 'insane') {
+        foodSpawnRate = 1;
+    } else {
+        foodSpawnRate = 5000;
+    }
 }
