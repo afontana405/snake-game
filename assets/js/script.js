@@ -146,7 +146,10 @@ function playerSettings() {
     // console.log($('#speed-input').val());
     // console.log($('#food-spawn-rate').val());
     // console.log($('#tail-length').val());
-    tailLength = $('#tail-length').val();
+    tailLengthInput = $('#tail-length').val();
+    if (tailLengthInput.isInteger()) {
+        tailLength = tailLengthInput;
+    }
     speedInput = $('#speed-input').val();
     if (speedInput === 'slow') {
         playerSpeed = 1000;
