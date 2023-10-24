@@ -17,8 +17,8 @@ $('#submit-btn').click(function() {
 });
 
 $('#start-btn').click(function() {
-    var autoMoveInt = setInterval(autoMove, playerSpeed);
-    var foodSpawnerInt = setInterval(foodSpawner, foodSpawnRate);
+    autoMoveInt = setInterval(autoMove, playerSpeed);
+    foodSpawnerInt = setInterval(foodSpawner, foodSpawnRate);
     document.getElementById('start-btn').style.display = 'none';
 });
 
@@ -143,6 +143,7 @@ function endgame() {
     }
     var currentLocation = $('#player-location')[0];
     currentLocation.id = '';
+    console.log('ending');
     document.getElementById('play-again-btn').style.display = 'initial';
 }
 
@@ -150,9 +151,7 @@ function endgame() {
 function playerSettings() {
     // sets tail length to user input if it is a number
     var tailLengthInput = $('#tail-length').val();
-    if (isNaN(tailLengthInput)) {
-        tailLength = 0
-    } else {
+    if (!isNaN(tailLengthInput)) {
         tailLength = tailLengthInput
     }
     // sets speed to user input
