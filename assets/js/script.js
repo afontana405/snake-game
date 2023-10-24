@@ -1,11 +1,19 @@
 var playerDirection = 'up';
 var tailLength = 0;
 var tailArray = [];
-var autoMoveInt = setInterval(autoMove, 250);
+var autoMoveInt;
 var foodSpawnerInt = setInterval(foodSpawner, 5000);
 
 $(window).ready(function() {
     createBoard();
+});
+
+$('#submit-btn').click(function() {
+    playerSettings();
+});
+
+$('#start-btn').click(function() {
+    var autoMoveInt = setInterval(autoMove, 250);
 });
 
 // listens for arrow key or WASD clicks
@@ -129,4 +137,11 @@ function endgame() {
     }
     var currentLocation = $('#player-location')[0];
     currentLocation.id = '';
+}
+
+function playerSettings() {
+    // console.log($('#speed-input').val());
+    // console.log($('#food-spawn-rate').val());
+    console.log($('#tail-length').val());
+    tailLength = $('#tail-length').val();
 }
