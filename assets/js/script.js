@@ -161,7 +161,7 @@ function playerSettings() {
         playerSpeed = 1000;
     } else if (speedInput === 'fast') {
         playerSpeed = 100;
-    } else if (speedInput === 'impossible') {
+    } else if (speedInput === 'unplayable') {
         playerSpeed = 1;
     } else {
         playerSpeed = 250;
