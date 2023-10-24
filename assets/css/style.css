@@ -1,5 +1,6 @@
 body {
     overflow-x: hidden;
+    overflow-y: hidden;
     background-color: darkgray;
 }
 
@@ -11,6 +12,12 @@ header {
 
 header h1 {
     padding: 25px 0px;
+}
+
+#settings {
+    position: relative;
+    left: 10px;
+    top: -600px;
 }
 
 #game-board {
