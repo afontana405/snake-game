@@ -6,6 +6,7 @@ var autoMoveInt;
 var foodSpawnerInt;
 var playerSpeed = 250;
 var foodSpawnRate = 5000;
+var pauseStatus = 0;
 
 // loads gameboard so there isnt so damn much html
 $(window).ready(function() {
@@ -23,6 +24,7 @@ $('#start-btn').click(function() {
 
 // restarts the game with users preferred settings
 $('#play-again-btn').click(function() {
+    document.getElementById('start-btn').style.display = 'none';
     playerSettings();
     document.getElementById(6).getElementsByClassName(6)[0].id = 'player-location';
     playerDirection = 'up';
@@ -41,6 +43,16 @@ document.onkeydown = (e) => {
         playerDirection = 'left';
     } else if (e.keyCode === 39 || e.keyCode === 68) {
         playerDirection = 'right';
+    } else if (e.keyCode === 80) {
+        if (pauseStatus === 0){ //pauses game if currently unpaused
+            pauseStatus++;
+            clearInterval(autoMoveInt);
+            clearInterval(foodSpawnerInt);
+        } else if (pauseStatus === 1) { //unpauses game if currently paused
+            pauseStatus--;
+            autoMoveInt = setInterval(autoMove, playerSpeed);
+            foodSpawnerInt = setInterval(foodSpawner, foodSpawnRate);
+        }
     }
 };
 
