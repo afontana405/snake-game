@@ -11,7 +11,6 @@ var pauseStatus = 0;
 // loads gameboard so there isnt so damn much html
 $(window).ready(function() {
     createBoard();
-    document.getElementById('play-again-btn').style.display = 'none';
 });
 
 // starts the game with users preferred settings
@@ -24,7 +23,7 @@ $('#start-btn').click(function() {
 
 // restarts the game with users preferred settings
 $('#play-again-btn').click(function() {
-    document.getElementById('play-again-btn').style.display = 'none';
+    document.getElementById('play-again-btn').hidden = true;
     playerSettings();
     document.getElementById(6).getElementsByClassName(6)[0].id = 'player-location';
     playerDirection = 'up';
@@ -160,7 +159,7 @@ function endgame() {
     $('div').each(function () {
         this.id = '';
     })
-    document.getElementById('play-again-btn').style.display = 'initial';
+    document.getElementById('play-again-btn').hidden = false;
 }
 
 // uses user input to set the rules for the game
