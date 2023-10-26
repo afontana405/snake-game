@@ -24,7 +24,7 @@ $('#start-btn').click(function() {
 
 // restarts the game with users preferred settings
 $('#play-again-btn').click(function() {
-    document.getElementById('start-btn').style.display = 'none';
+    document.getElementById('play-again-btn').style.display = 'none';
     playerSettings();
     document.getElementById(6).getElementsByClassName(6)[0].id = 'player-location';
     playerDirection = 'up';
