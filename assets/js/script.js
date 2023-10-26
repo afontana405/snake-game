@@ -1,3 +1,4 @@
+var gameboard = $('#game-board')[0];
 var playerDirection = 'up';
 var tailLength = 0;
 var tailArray = [];
@@ -6,20 +7,27 @@ var foodSpawnerInt;
 var playerSpeed = 250;
 var foodSpawnRate = 5000;
 
+// loads gameboard so there isnt so damn much html
 $(window).ready(function() {
     createBoard();
     document.getElementById('play-again-btn').style.display = 'none';
 });
 
-$('#submit-btn').click(function() {
-    playerSettings();
-    console.log('submit');
-});
-
+// starts the game with users preferred settings
 $('#start-btn').click(function() {
+    playerSettings();
     autoMoveInt = setInterval(autoMove, playerSpeed);
     foodSpawnerInt = setInterval(foodSpawner, foodSpawnRate);
     document.getElementById('start-btn').style.display = 'none';
+});
+
+// restarts the game with users preferred settings
+$('#play-again-btn').click(function() {
+    playerSettings();
+    document.getElementById(6).getElementsByClassName(6)[0].id = 'player-location';
+    playerDirection = 'up';
+    autoMoveInt = setInterval(autoMove, playerSpeed);
+    foodSpawnerInt = setInterval(foodSpawner, foodSpawnRate);
 });
 
 // listens for arrow key or WASD clicks
@@ -39,7 +47,6 @@ document.onkeydown = (e) => {
 function createBoard() {
     // creates 10 rows and columns
     for (var i = 0; i < 10; i++) {
-        var gameboard = $('#game-board')[0];
         var section = document.createElement('section');
         section.setAttribute('id', [i]);
         section.className = 'col-10 d-flex';
@@ -55,6 +62,7 @@ function autoMove() {
     var currentLocation = $('#player-location')[0];
     var currentYAxis = currentLocation.parentElement.id;
     var currentXAxis = currentLocation.className
+    checkTailLength();
     if (playerDirection === 'up') { // moves player up 1
         if (currentYAxis > 0) {
             tailArray.push(currentLocation);
@@ -63,7 +71,6 @@ function autoMove() {
             var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
             checkSquare(locationMovedTo);
             locationMovedTo.id = 'player-location';
-            checkTailLength();
         } else { // ends game if player hits wall
             endgame();
         }
@@ -75,7 +82,6 @@ function autoMove() {
             var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
             checkSquare(locationMovedTo);
             locationMovedTo.id = 'player-location';
-            checkTailLength();
         } else { // ends game if player hits wall
             endgame();
         }
@@ -87,7 +93,6 @@ function autoMove() {
             var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
             checkSquare(locationMovedTo);
             locationMovedTo.id = 'player-location';
-            checkTailLength();
         } else { // ends game if player hits wall
             endgame();
         }
@@ -99,15 +104,26 @@ function autoMove() {
             var locationMovedTo = document.getElementById(currentYAxis).getElementsByClassName(currentXAxis)[0]
             checkSquare(locationMovedTo);
             locationMovedTo.id = 'player-location';
-            checkTailLength();
         } else { // ends game if player hits wall
             endgame();
         }
     };
 };
 
+// spawns food randomly on game board
+function foodSpawner() {
+    var xAxis = Math.floor(Math.random() * 10)+1;
+    var yAxis = Math.floor(Math.random() * 10);
+    var foodLocation = document.getElementById(yAxis).getElementsByClassName(xAxis)[0];
+    // makes sure food doesnt spawn on player
+    if (foodLocation.id !== 'player-location' && foodLocation.id !== 'player-tail') {
+        foodLocation.id = 'food'
+    }
+}
+
 // if location player moves to has food, they grow. if they touch themself, they die
 function checkSquare(locationMovedTo) {
+    tailArray[0].id = 'tail-caboose';
     if (locationMovedTo.id === 'food') {
         tailLength++;
     } else if (locationMovedTo.id === 'player-tail') {
@@ -123,16 +139,6 @@ function checkTailLength() {
     }
 };
 
-// spawns food randomly on game board
-function foodSpawner() {
-    var xAxis = Math.floor(Math.random() * 10)+1;
-    var yAxis = Math.floor(Math.random() * 10);
-    var foodLocation = document.getElementById(yAxis).getElementsByClassName(xAxis)[0];
-    // makes sure food doesnt spawn on player
-    if (foodLocation.id !== 'player-location' && foodLocation.id !== 'player-tail') {
-        foodLocation.id = 'food'
-    }
-}
 
 // removes player from board, stops intervals
 function endgame() {
@@ -141,9 +147,9 @@ function endgame() {
     for (var i = 0; i < tailArray.length; i++) {
         tailArray[i].id = '';
     }
+    tailArray = [];
     var currentLocation = $('#player-location')[0];
     currentLocation.id = '';
-    console.log('ending');
     document.getElementById('play-again-btn').style.display = 'initial';
 }
 
