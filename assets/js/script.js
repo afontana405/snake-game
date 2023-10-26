@@ -156,12 +156,10 @@ function checkTailLength() {
 function endgame() {
     clearInterval(autoMoveInt);
     clearInterval(foodSpawnerInt);
-    for (var i = 0; i < tailArray.length; i++) {
-        tailArray[i].id = '';
-    }
     tailArray = [];
-    var currentLocation = $('#player-location')[0];
-    currentLocation.id = '';
+    $('div').each(function () {
+        this.id = '';
+    })
     document.getElementById('play-again-btn').style.display = 'initial';
 }
 
